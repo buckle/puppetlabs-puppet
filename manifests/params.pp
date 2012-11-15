@@ -26,6 +26,7 @@ class puppet::params {
   $puppet_site                      = $::fqdn
   $puppet_docroot                   = '/etc/puppet/rack/public/'
   $puppet_passenger_port            = '8140'
+  $hiera_config_file                = 'puppet:///modules/puppet/hiera.yaml'
 
   case $::operatingsystem {
     'centos', 'redhat', 'fedora': {

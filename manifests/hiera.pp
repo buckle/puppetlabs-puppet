@@ -12,33 +12,14 @@
 #
 class puppet::hiera (
   $confdir    = $puppet::params::confdir,
-  $modulepath = $puppet::params::modulepath,
-  $provider   = 'gem'
+  $config_file = $puppet::params::hiera_config_file
 ) inherits puppet::params {
-
-  package { 'hiera':
-    ensure   => present,
-    provider => $provider,
-  }
-
-  package { 'hiera-puppet':
-    ensure   => present,
-    provider => $provider,
-  }
 
   file { "${confdir}/hiera.yaml":
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
-    source  => 'puppet:///modules/puppet/hiera.yaml',
-    replace => false,
-  }
-
-  exec { 'hiera-puppet':
-    command => 'git clone git://github.com/puppetlabs/hiera-puppet',
-    cwd     => $modulepath,
-    path    => '/usr/local/bin:/usr/bin:/bin',
-    creates => "${modulepath}/hiera-puppet",
+    source  => $config_file,
   }
 
 }
